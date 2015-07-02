@@ -1,0 +1,76 @@
+/* lcf file for MPC560xB (debug RAM version)                                */
+/* Note internal memory configurations vary among the various family        */
+/* devices.                                                                 */
+/*                                                                          */
+/*   +-----------+------------+                                             */
+/*   |  Device   | MPC5644A   |                                             */
+/*   +-----------+------------+                                             */
+/*   |SRAM/Flash | 192KB/     |                                             */
+/*   |           | 4MB        |                                             */
+/*   +-----------+------------+                                             */
+/*                                                                          */
+/* These memory definitions will allow the stationery example to run on     */
+/* the smallest */
+
+MEMORY
+{
+    pseudo_rom:         org = 0x40000000,   len = 0x00003000
+    init:               org = 0x40003000,   len = 0x00001000
+    exception_handlers: org = 0x40004000,   len = 0x00001000
+    internal_ram:       org = 0x40005000,   len = 0x0001B000
+    heap  :             org = 0x40020000,   len = 0x00008000 
+    stack :             org = 0x40028000,   len = 0x00008000 
+}
+
+SECTIONS
+{
+    GROUP : {
+      .init  : {}
+      .init_vle (VLECODE) : {
+        *(.init)
+        *(.init_vle)
+      }
+    } > init
+
+    GROUP : {
+      .ivor_branch_table (VLECODE) ALIGN (4096) : {}
+      .__exception_handlers  (VLECODE) LOAD (_e_ivor_branch_table) : {} 
+    } > exception_handlers
+
+    GROUP : {
+        .text (TEXT) ALIGN(0x10) : {}
+        .text_vle (VLECODE) ALIGN(0x10): {
+             *(.text)
+             *(.text_vle)
+         }
+        .rodata (CONST) : {
+            *(.rdata)
+            *(.rodata)
+        }
+        .ctors : {}
+        .dtors : {}
+        extab : {}
+        extabindex : {}
+    } > pseudo_rom
+
+    GROUP : {    
+       .__uninitialized_intc_handlertable ALIGN(0x10) : {}
+       .data   : {}
+       .sdata  : {}
+       .sbss   : {}
+       .sdata2 : {}
+       .sbss2  : {}
+       .bss    : {}
+    } > internal_ram
+}
+
+/* Freescale CodeWarrior compiler address designations */
+
+_stack_addr = ADDR(stack)+SIZEOF(stack);
+_stack_end  = ADDR(stack);
+_heap_addr  = ADDR(heap);
+_heap_end   = ADDR(heap)+SIZEOF(heap);
+
+/* Exceptions Handlers Location (used in Exceptions.c for IVPR initialization) */
+
+EXCEPTION_HANDLERS = ADDR(exception_handlers);

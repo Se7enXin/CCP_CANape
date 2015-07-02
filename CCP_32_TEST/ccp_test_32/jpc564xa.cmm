@@ -1,0 +1,217 @@
+;
+; Example script for programming of MPC564xA/SPC564Axx internal flash.
+;
+; MPC5644A/SPC564A80: Internal Flash Memory 4 MByte
+; MPC5642A/SPC564A70: Internal Flash Memory 2 MByte
+; 
+;
+; NOTES:
+; 
+;   Flash register base addresses cannot be remapped, because target
+;   program does currently not support another base address.
+;
+; $Author: rweiss $
+; $Date: 2011-01-13 11:22:51 +0100 (Do, 13 Jan 2011) $
+; $Rev: 1167 $
+;
+
+; Check if script is called with parameters
+; Valid parameters:
+;   PREPAREONLY     : prepare flash programming without user interaction
+LOCAL &parameters
+ENTRY %LINE &parameters
+&param_prepareonly=(STRING.SCAN("&parameters","PREPAREONLY",0)!=-1)
+
+&flashbase=0x00000000
+&shadow0base=0x00ffc000
+&shadow1base=0x00efc000
+&rambase=0x40000000
+&flashsize="tbd"
+&flasharrays="tbd"
+&flashdriver="tbd.bin"
+
+; Optimize flash programming time by switching on PLL
+&optimize=0
+
+;========================================================================
+; CPU setup
+
+SYStem.RESet
+SYStem.BdmClock 1.0MHz
+SYStem.CPU MPC55XX
+SYStem.DETECT CPU
+SYStem.Option.WATCHDOG OFF
+SYStem.Up
+
+if (CPU()=="MPC5642A")||(CPU()=="SPC564A70")
+  &flashsize=0x000200000
+else
+  &flashsize=0x000400000
+
+if CPU()=="SPC564A70"
+(
+  &flasharrays=1
+  &flashdriver="~~/demo/powerpc/flash/quad/c90fl564xl.bin"
+)
+else  
+(
+  &flasharrays=2
+  &flashdriver="~~/demo/powerpc/flash/quad/c90fl5674.bin"
+)
+
+if &optimize==1
+(
+  ; TBD
+  ; setup PLL
+  ; Data.Set ASD:0xC3F80000 %LONG 0x06000000
+  ; set JTAG clock to 25 MHz
+  ; SYStem.BdmClock 25MHz
+)
+
+; initialize internal SRAM
+Data.Set EA:0x40000000--0x40007fff %quad 0
+
+; setup MMU for flash, RAM and register access
+MMU.TLB1.SET 0x1 0xC0000500 0xFFF0000A 0xFFF0003F
+MMU.TLB1.SET 0x2 0xC0000700 0x20000000 0x2000003F
+MMU.TLB1.SET 0x3 0xC0000400 0x40000008 0x4000003F
+MMU.TLB1.SET 0x4 0xC0000500 0xC3F00008 0xC3F0003F
+MMU.TLB1.SET 0x5 0xC0000700 0x00000000 0x0000003F
+
+;MMU.TLB1.SET 0 0xC0000500 0xFFF0002A 0xFFF0003F
+;MMU.TLB1.SET 1 0xC0000700 0x00000020 0x0000003F
+;MMU.TLB1.SET 2 0xC0000700 0x20000020 0x2000003F
+;MMU.TLB1.SET 3 0xC0000400 0x40000028 0x4000003F
+;MMU.TLB1.SET 4 0xC0000500 0xC3F0002A 0xC3F0003F
+;MMU.TLB1.SET 5 0xC0000600 0x3FC00020 0x3FC0003F
+
+;========================================================================
+; Flash declaration
+
+FLASH.RESet
+&flashaddr=&flashbase
+
+; LAS
+FLASH.Create 1. (&flashbase+0x00000000)++0x03fff TARGET Quad 0.  ; L0 bank 0
+FLASH.Create 1. (&flashbase+0x00004000)++0x03fff TARGET Quad 1.  ; L1 bank 0
+FLASH.Create 1. (&flashbase+0x00008000)++0x03fff TARGET Quad 2.  ; L2 bank 0
+FLASH.Create 1. (&flashbase+0x0000c000)++0x03fff TARGET Quad 3.  ; L3 bank 0
+FLASH.Create 1. (&flashbase+0x00010000)++0x03fff TARGET Quad 4.  ; L4 bank 0
+FLASH.Create 1. (&flashbase+0x00014000)++0x03fff TARGET Quad 5.  ; L5 bank 0
+FLASH.Create 1. (&flashbase+0x00018000)++0x03fff TARGET Quad 6.  ; L6 bank 0
+FLASH.Create 1. (&flashbase+0x0001c000)++0x03fff TARGET Quad 7.  ; L7 bank 0
+FLASH.Create 1. (&flashbase+0x00020000)++0x0ffff TARGET Quad 8.  ; L8 bank 0
+FLASH.Create 1. (&flashbase+0x00030000)++0x0ffff TARGET Quad 9.  ; L9 bank 0
+
+if (&flasharrays==1)
+(
+  ; MAS
+  FLASH.Create 2. (&flashbase+0x00040000)++0x1ffff TARGET Quad 0. ; M0 bank 0
+  FLASH.Create 2. (&flashbase+0x00060000)++0x1ffff TARGET Quad 1. ; M1 bank 0
+  &flashaddr=&flashbase+0x00080000
+
+  ; HAS
+  &Hx=0.
+  while &flashaddr<(&flashbase+&flashsize)
+  (
+    FLASH.Create 3. &flashaddr++0x3ffff TARGET Quad &Hx ; H0..H5 bank 0 + bank 1
+    &flashaddr=&flashaddr+0x40000
+    &Hx=&Hx+1.
+  )
+  
+  ; Shadow row
+  FLASH.Create 4. (&shadow0base+0x00000000)++0x3fff NOP Quad
+)
+else
+(
+  ; LAS
+  FLASH.Create 1. (&flashbase+0x00040000)++0x1ffff TARGET Quad 10. ; M0 bank 0
+  FLASH.Create 1. (&flashbase+0x00060000)++0x1ffff TARGET Quad 11. ; M1 bank 0
+
+  ; MAS
+  FLASH.Create 2. (&flashbase+0x00080000)++0x3ffff TARGET Quad 0.  ; L0 bank 1
+  FLASH.Create 2. (&flashbase+0x000c0000)++0x3ffff TARGET Quad 1.  ; M0 bank 1
+  &flashaddr=&flashbase+0x00100000
+
+  ; HAS
+  &Hx=0.
+  while &flashaddr<(&flashbase+&flashsize)
+  (
+    FLASH.Create 3. &flashaddr++0x7ffff TARGET Quad &Hx ; H0..H5 bank 0 + bank 1
+    &flashaddr=&flashaddr+0x80000
+    &Hx=&Hx+1.
+  )
+  
+  ; Shadow rows
+  FLASH.Create 4. (&shadow0base+0x00000000)++0x3fff NOP Quad
+  FLASH.Create 5. (&shadow1base+0x00000000)++0x3fff NOP Quad
+)
+
+FLASH.TARGET E:&rambase E:&rambase+0x2800 0x1000 &flashdriver /STACKSIZE 0x0200
+
+;flash script ends here if called with parameter PREPAREONLY
+IF &param_prepareonly
+  ENDDO
+
+;========================================================================
+; Flash programming example
+;
+; Flash programming speed is about three times faster when memory class E:
+; is used for data buffer (DUALPORT memory access). For DUALPORT access it
+; is required to setup MemAccess NEXUS for both, NEXUS and JTAG debugger. 
+
+DIALOG.YESNO "是否需要进行Flash编程（烧写程序）?"
+entry &progflash
+
+if &progflash 
+(
+  FLASH.ReProgram ALL /Erase
+  ;Data.LOAD * E:0x00--(&flashsize-1)
+  Data.LOAD.ELF bin/internal_FLASH.elf E:0x00--0x03FFFFF
+  FLASH.ReProgram OFF
+)
+else
+(
+  FLASH.LIST
+)
+
+
+SYStem.RESet
+SYStem.CPU MPC5644A-V2
+SYStem.DETECT CPU
+SYStem.Option.WATCHDOG OFF
+
+;set JTAG clock back to default
+SYStem.BdmClock 1MHz
+
+Trace.Method Onchip
+Trace.Init
+
+SYStem.UP
+
+
+MMU.TLB1.SET 0 0xC0000500 0xFFF0002A 0xFFF0003F
+MMU.TLB1.SET 1 0xC0000700 0x00000020 0x0000003F
+MMU.TLB1.SET 2 0xC0000700 0x20000020 0x2000003F
+MMU.TLB1.SET 3 0xC0000400 0x40000028 0x4000003F
+MMU.TLB1.SET 4 0xC0000500 0xC3F0002A 0xC3F0003F
+MMU.TLB1.SET 5 0xC0000600 0x3FC00020 0x3FC0003F
+
+SYStem.MemAccess NEXUS
+SYStem.Option DUALPORT ON
+
+Data.LOAD.ELF bin/internal_FLASH.elf /GlobTypes
+
+Mode.HLL ;切换到C语言形式
+
+do windows.cmm
+
+Go main  ;跳转到Main函数
+
+
+ENDDO
+
+
+
+
+

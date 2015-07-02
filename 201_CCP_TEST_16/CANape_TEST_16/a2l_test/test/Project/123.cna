@@ -1,0 +1,453 @@
+[FILE_INFO]
+Identification=CANape-Configuration-File
+FileName=123.cna
+FileNameAbsolute=C:\Users\xin.zhang\Desktop\201_CCP_TEST_16\CANape_TEST_16\a2l_test\test\Project\123.cna
+WorkingDirectory=C:\Users\xin.zhang\Desktop\201_CCP_TEST_16\CANape_TEST_16\a2l_test\test\Project
+ProjectId=07df-0006-0018-0009-001b-003b-0000
+FileVersion=702
+PrgVersion=Version 9.0.40.27237
+PrgDate=28.2.2011
+Description=
+CreationTime=09:33
+CreationDate=06/24/2015 ; Month/Day/Year
+ModificationTime=18:21
+ModificationDate=06/24/2015 ; Month/Day/Year
+Protected=0
+
+[CALIBRATION_LIST]
+Count=3
+
+[CALIBRATION_OBJECT_1]
+EditOffset=1
+EditFactor=2
+EditFormat=2
+ShowWorkingPoint=0
+FollowWorkingPoint=0
+Module=new_database
+Name=cal1
+StimMode=0
+
+[CALIBRATION_OBJECT_2]
+EditOffset=1
+EditFactor=2
+EditFormat=2
+ShowWorkingPoint=0
+FollowWorkingPoint=0
+Module=new_database
+Name=cal2
+StimMode=0
+
+[CALIBRATION_OBJECT_3]
+EditOffset=1
+EditFactor=2
+EditFormat=2
+ShowWorkingPoint=0
+FollowWorkingPoint=0
+Module=new_database
+Name=cal3
+StimMode=0
+
+[CANAPE_ENVIRONMENT]
+OBJECT_COUNT=0
+
+[DATAMINING]
+AnalysisFilename=Analysis-{YEAR}-{MONTH}-{DAY}_{HOUR}-{MINUTE}-{SECOND}
+AnalysisDirectory=
+Comment=
+OptionMaxFindingsPerFile=100
+OptionMaxFindings=1000
+FromTime=-1
+FromActive=0
+FromTimePartActive=0
+ToTime=-1
+ToActive=0
+ToTimePartActive=0
+MDFExtensions=*.mdf
+Methods=
+Signals=
+ConditionEpsilon=1e-009
+ConditionEpsilonRelative=0
+
+[DATAMINING_FILE_LIST]
+Count=0
+
+[DISPLAY_PAGE_1]
+Name=
+Comment=
+Maximized=0
+ActiveWindow=4294967295
+
+[DISPLAY_PAGES]
+Count=1
+Active=-1
+
+[EVENT_LIST]
+Count=0
+
+[FILE_COMMENT_TEMPLATE]
+1="Name",""
+2="Division",""
+3="Project",""
+4="Subject",""
+5="Comment",""
+Count=5
+
+[FUNCTION_OBJECT_LIST]
+count=0
+
+[FUNCTIONS]
+COUNT=0
+COUNT_LIBRARY=0
+
+[JOB_LIST]
+Count=0
+
+[MDF_LIST]
+Count=0
+
+[MEASUREMENT_LIST]
+Count=0
+MeaCfgLabellistName=
+
+[MEASUREMENT_OPTIONS]
+MaxTime=60000
+BufferSize=30000
+TimeAxis=20000
+TimeLimited=0
+BufferSizeMem=5120
+ShowDialogForErrors=1
+SaveAllToDisplayBuffer=0
+TimeMode=0
+YMode=1
+PollingAlways=1
+PollingOnlyVisiblePage=0
+DrawLastValue=1
+UpdateCycleBar=100
+UpdateCycleVal=500
+UpdateCycleGraph=1000
+UpdateCycleArr=1000
+UpdateCycleCal=1000
+UpdateCycle2D3DMeasure=500
+UpdateCycleAx=100
+UpdateCycleWrt=100
+UpdateCycleTrace=100
+UpdateCycleTxt=1000
+TimeScrollSoft=0
+TimeScrollAt=100
+TimeScrollSoftAt=80
+TimeScrollBy=100
+FitTimeAxis=1
+FitYAxis=0
+AutoInsertComment=1
+OfflineFileSignals=1
+UpdateMeaInCalWindows=1
+MeaSaveParameterOnStart=0
+ShowFileSignalsDuringMeasurement=0
+AddOnSignalModes=1
+LiveMeasurementRate=1000
+EditCommentAfterSaveSignals=1
+ShowRejectFileMsg=1
+ParDeviceCount=0
+MeaSaveParameterFileName=Parameter
+StopMeasurementOnEvent=1
+StopMeasurementEventsCount=0
+StopMeasurementOnESC=1
+
+[MEASUREMENT_USERFILTER]
+Count=0
+
+[OPTIONS]
+WindowTextExtended=1
+WindowSymbols=1
+GlobalCursor=0
+GlobalCursorTime=0
+MainWindowPos=0, -8, 0, 1600, 860 ;cmd, x, y, w, h
+
+[PAR_COMMENT]
+Count=0
+
+[POST_ANALYSIS_SCRIPT]
+ScriptName=
+
+[POST_PROCESSEDFILE_SCRIPT]
+ScriptName=
+
+[PRE_ANALYSIS_SCRIPT]
+ScriptName=
+
+[PRE_PROCESSEDFILE_SCRIPT]
+ScriptName=
+
+[PRINTFORMAT]
+FormatPortrait=0
+PageSame=1
+ColorMono=0
+PreviewSignals=0
+ShowWindowTitle=0
+CompanyAlignement=0
+NbrPages=1
+CompanyLogo=
+PrintAlignment=0
+HeaderPos=1
+HeaderHeight=20
+CompanyComment_1="Print page: {PAGE}    {DATE}  {TIME}"
+CompanyComment_2="License name: {LICENSENAME}"
+CompanyComment_3="Serial number: {LICENSENO}"
+CompanyComment_Count=3
+Comment_1="File 1: {FILENAME 1}"
+Comment_2="Name: {NAME 1}    Division: {DIVISION 1}"
+Comment_3="Project: {PROJECT 1}    Measurement object: {SUBJECT 1}"
+Comment_4="Comment: {COMMENT 1}"
+Comment_Count=4
+TreeCount=0
+
+[RECORDER_1]
+Name=Recorder
+Comment=
+FilenameTemplate={RECORDER}_{YEAR}-{MONTH}-{DAY}_{HOUR}-{MINUTE}-{SECOND}.MDF
+ConverterId=
+MaxSize=4294967295
+Enabled=1
+DefaultRecorder=1
+EditComment=1
+StartWithoutRecording=0
+SaveMeasurementComment=1
+SaveWriteWindowText=0
+SaveCalibrationCommands=0
+SplitFileEnabled=0
+SplitFileTimeEnabled=0
+SplitFileSizeEnabled=1
+SplitFileEventEnabled=0
+SplitFileTimeS=3600
+SplitFileSizeBytes=104857600
+AutoSaveTime=60000
+DataReduction=-1
+SaveParameterOnStart=0
+FlushMode=0
+TrgEnabled=0
+TrgStopRecording=0
+TrgStartStop=0
+TrgEnableMaxStopTime=0
+TrgSaveInOneFile=0
+TrgPreTimeMS=5000
+TrgPostTimeMS=5000
+TrgMaxStopTimeMS=5000
+TrgMaxBlockCount=1
+StartEvCount=0
+StopEvCount=0
+SplitEvCount=0
+
+[RECORDER_1_FILE_COMMENT]
+1="Name",""
+2="Division",""
+3="Project",""
+4="Subject",""
+5="Comment",""
+Count=5
+
+[RECORDER_LIST]
+RecorderCount=1
+
+[SIGNSELWND]
+Enabled=1
+Docked=1
+DockedVisible=1
+DockedLocation=3
+DockedWidth=200
+DockedHeight=150
+FloatedLeft=0
+FloatedTop=0
+FloatedWidth=200
+FloatedHeight=300
+DockEnable=1
+DockSignalSelWnd=1
+DockSignalSelShowWnd=1
+DockLoc=3
+DockWidth=198
+PosLeft=0
+PosTop=0
+PosRight=216
+PosBottom=336
+FocusID=2004
+ActiveTab=0
+FilterNodeID=All
+TreeExpand_0=@All
+TreeExpand_1=All\Devices
+TreeExpand_2=All\Devices\new_database\new_database.a2l
+TreeExpand_3=All\Devices\new_database
+TreeExpand_4=$All\Devices
+TreeExpand_5=#All\Devices\new_database\new_database.a2l\cal3
+TreeExpand_6=@All\Devices
+TreeExpand_7=$
+TreeExpand_8=#
+TreeExpand_9=@All\Devices\Environment
+TreeExpand_10=$
+TreeExpand_11=#
+TreeExpand_12=@All\Devices\new_database
+TreeExpand_13=$
+TreeExpand_14=#
+TreeExpand_15=@All\Opened parameter set files
+TreeExpand_16=$
+TreeExpand_17=#
+TreeExpand_18=@All\Loaded measurement files
+TreeExpand_19=$
+TreeExpand_20=#
+TreeExpand_21=@All\Function Definitions
+TreeExpand_22=$
+TreeExpand_23=#
+TreeExpand_24=@All\Virtual file channels
+TreeExpand_25=$
+TreeExpand_26=#
+TreeExpand_27=@All\Measurement list
+TreeExpand_28=$
+TreeExpand_29=#
+TreeExpand_30=@All\Calibration objects
+TreeExpand_31=$
+TreeExpand_32=#
+TreeExpand_33=@All\Data Mining results
+TreeExpand_34=$
+TreeExpand_35=#
+TextSearchCaseSensitive=0
+TextSearchUseMode=1
+TextSearchSearchFullText=1
+
+[VIRTUAL_MDF_LIST]
+Count=0
+
+[WINDOW_1]
+DisplayMode=0
+Title=Device window
+Type=256
+Comment=Device window
+Number=1
+Position=0, 0, 0, 810, 452 ;cmd, x, y, w, h
+Position_Page01=0, 0, 0, 810, 452 ;cmd, x, y, w, h
+FloatingWindow=0
+ShowSignalComments=1
+DisplayMask=1 ; pages 1
+
+[WINDOW_2]
+ShowTime=1
+TimeWidth=120
+CopyColumnTitles=1
+ClearStart=1
+AbsoluteTimeEnabled=0
+ColumnCount=3
+Column_0=2, 38
+Column_1=0, 120
+Column_2=1, 600
+Title=Write
+Type=128
+Comment=Write window
+Number=2
+Position=0, 0, 452, 623, 235 ;cmd, x, y, w, h
+Position_Page01=0, 0, 452, 623, 235 ;cmd, x, y, w, h
+FloatingWindow=0
+ShowSignalComments=1
+DisplayMask=1 ; pages 1
+
+[WINDOW_3]
+BufferSize=131071
+OnlyMeasurement=0
+DropTraceEvents=0
+DeltaTimeEnabled=0
+LoggingEnabled=0
+LoggingFilePath=
+LoggingOverwriteOnConfigLoad=0
+TraceChannelCount=2
+CopyColumnTitles=1
+ClearStart=1
+AbsoluteTimeEnabled=0
+ColumnCount=7
+Column_0=0, 120
+Column_1=257, 40
+Column_2=4, 80
+Column_3=1, 50
+Column_4=2, 35
+Column_5=3, 180
+Column_6=513, 180
+Title=Trace
+Type=16384
+Comment=Trace window
+Number=3
+Position=0, 623, 452, 647, 235 ;cmd, x, y, w, h
+Position_Page01=0, 623, 452, 647, 235 ;cmd, x, y, w, h
+FloatingWindow=0
+ShowSignalComments=1
+DisplayMask=1 ; pages 1
+
+[WINDOW_3_CHANNEL_1]
+Module=new_database
+Channel=0
+CustomColorFlag=0
+Color=0
+
+[WINDOW_3_CHANNEL_2]
+Module=new_database
+Channel=1
+CustomColorFlag=0
+Color=0
+
+[WINDOW_4]
+ColumnWidth=194 97 -45 -75
+Group=0
+Sorted=0
+ObjectCount=1
+Title=Parameter
+Type=8
+Comment=Calibration window
+Number=4
+Position=0, 810, 0, 300, 150 ;cmd, x, y, w, h
+Position_Page01=0, 810, 0, 300, 150 ;cmd, x, y, w, h
+FloatingWindow=0
+ShowSignalComments=1
+DisplayMask=1 ; pages 1
+
+[WINDOW_4_OBJECT_1]
+Module=new_database
+Name=cal1
+
+[WINDOW_5]
+ColumnWidth=194 97 -45 -75
+Group=0
+Sorted=3
+ObjectCount=1
+Title=Parameter
+Type=8
+Comment=Calibration window
+Number=5
+Position=0, 810, 300, 300, 150 ;cmd, x, y, w, h
+Position_Page01=0, 810, 300, 300, 150 ;cmd, x, y, w, h
+FloatingWindow=0
+ShowSignalComments=1
+DisplayMask=1 ; pages 1
+
+[WINDOW_5_OBJECT_1]
+Module=new_database
+Name=cal3
+
+[WINDOW_6]
+ColumnWidth=194 97 -45 -75
+Group=0
+Sorted=0
+ObjectCount=1
+Title=Parameter
+Type=8
+Comment=Calibration window
+Number=6
+Position=0, 810, 150, 300, 150 ;cmd, x, y, w, h
+Position_Page01=0, 810, 150, 300, 150 ;cmd, x, y, w, h
+FloatingWindow=0
+ShowSignalComments=1
+DisplayMask=1 ; pages 1
+
+[WINDOW_6_OBJECT_1]
+Module=new_database
+Name=cal2
+
+[WINDOWS]
+Count=6
+
+[Y_COMMON_AXIS_LIST]
+Count=0
+
