@@ -1,13 +1,17 @@
-#CCP移植（MPC5644A_32位 & S12XEP100_16位）
+# CCP移植（MPC5644A_32位 & S12XEP100_16位）
 
-##1、和CCP移植相关的资料
+## 1、和CCP移植相关的资料
+
 	Vector所提供的资料中有几个文档，下图中画红色方框的需要在移植之前看完。
+	
 ![](http://i.imgur.com/hLbaOeq.jpg)  
 		
-	AN-IMC-1-001_Integration_of the_Vector_CCP_Driver_with_a_free_CAN_Driver.pdf  介绍了完整的移植过程  
-	CCP21.pdf  介绍了2.1版本的CCP协议
+> **AN-IMC-1-001_Integration_of the_Vector_CCP_Driver_with_a_free_CAN_Driver.pdf**  介绍了完整的移植过程   
 
-##2、CCP文件介绍
+
+> **CCP21.pdf**  介绍了2.1版本的CCP协议
+
+## 2、CCP文件介绍
 移植后的工程中应该包含以下文件：  
 ![](http://i.imgur.com/1ksZHOC.jpg)  
 
@@ -23,8 +27,8 @@ boot_can.h|CAN底层驱动的头文件
 
 <font color= "red">其中***ccp.c、ccp.h、ccppar.h***由Vector提供，我们不需要进行改动，而其余的文件需要我们针对具体的芯片来进行改写。</font>
 
-##3、CCP Driver在ECU上的集成
-###(1)ccppar.h
+## 3、CCP Driver在ECU上的集成
+### (1)ccppar.h
 <font color = "blue">CCP Driver数据类型的声明（针对不同硬件平台需要进行改动）：</font>  
 
 	/*----------------------------------------------------------------------------*/
@@ -51,7 +55,7 @@ boot_can.h|CAN底层驱动的头文件
 	#define CCP_DTO_ID        0x101         /* CAN identifier ECU -> Master */
 	#define CCP_CRO_ID        0x100         /* CAN identifier Master -> ECU */
 
-###(2)ccp_can_interface.c
+### (2)ccp_can_interface.c
 <font color = "red">该文件实现对底层CAN驱动的封装：</font>  
 
 <font color = "blue">CAN发送：</font>
@@ -112,7 +116,7 @@ boot_can.h|CAN底层驱动的头文件
 	}
 	// -----------------------------------------------------------------------------
 	
-###(3)boot_can.c
+### (3)boot_can.c
 <font color = "red">该文件中需要完成4个CAN接口函数，也是CCP中CAN模块的底层驱动</font> 
  
 <font color = "blue">CAN模块初始化：</font>	
@@ -122,8 +126,8 @@ boot_can.h|CAN底层驱动的头文件
 	// -----------------------------------------------------------------------------
 	void ccpBootInit (int cro_id, int dto_id)
 	{
-	  g_ccp_dto_id = dto_id;       // handover IDs (CRO, DTO)
-	  g_ccp_cro_id = cro_id;  
+	  	g_ccp_dto_id = dto_id;       // handover IDs (CRO, DTO)
+	  	g_ccp_cro_id = cro_id;  
 
 	    CAN0CTL0 = 0x01;                                          
 	    while (!(CAN0CTL1&0x01)){};
@@ -131,23 +135,23 @@ boot_can.h|CAN底层驱动的头文件
 	    CAN0BTR0 = 0xC3;          
 	    CAN0BTR1 = 0x3A;	      
 	  
-	  CAN0IDAC_IDAM = 0;              // use 2*32bit Acceptance Filters
+	  	CAN0IDAC_IDAM = 0;                 // use 2*32bit Acceptance Filters
 	
-	  CAN0IDAR0 = 0x20;                  // TS_PM_1 & TS_PM2 ID 1st Reg Byte = 0x20 both
-	  CAN0IDAR1 = 0x00;                  // TS_PM_1 2nd Byte = 0x00;TS_PM_2 2nd Byte = 0x20; Need Mask
-	  CAN0IDAR2 = 0;                     // Not useful in Standard Frame
-	  CAN0IDAR3 = 0;                     // Not useful in Standard Frame
+	  	CAN0IDAR0 = 0x20;                  // TS_PM_1 & TS_PM2 ID 1st Reg Byte = 0x20 both
+	  	CAN0IDAR1 = 0x00;                  // TS_PM_1 2nd Byte = 0x00;TS_PM_2 2nd Byte = 0x20; Need Mask
+	  	CAN0IDAR2 = 0;                     // Not useful in Standard Frame
+	  	CAN0IDAR3 = 0;                     // Not useful in Standard Frame
 	  
-	  CAN0IDMR0 = 0xFF;                  // No Mask, care first 3 bits
-	  CAN0IDMR1 = 0xFF;                  // Mask All
-	  CAN0IDMR2 = 0;                     // Not useful in Standard Frame
-	  CAN0IDMR3 = 0;                     // Not useful in Standard Frame
+	  	CAN0IDMR0 = 0xFF;                  // No Mask, care first 3 bits
+	  	CAN0IDMR1 = 0xFF;                  // Mask All
+	  	CAN0IDMR2 = 0;                     // Not useful in Standard Frame
+	  	CAN0IDMR3 = 0;                     // Not useful in Standard Frame
 	
 	    CAN0CTL0 = 0x00;            
 	    while ((CAN0CTL1&0x01) != 0){};
 	    
-	  CAN0RFLG_RXF = 1;                // clear receive full flag
-	  CAN0CTL0_RXFRM = 1;                 // clear Received Frame Flag 
+	  	CAN0RFLG_RXF = 1;                  // clear receive full flag
+	  	CAN0CTL0_RXFRM = 1;                // clear Received Frame Flag 
 	// -----------------------------------------------------------------------------
 	} /* ccpBootInit */
 
@@ -157,7 +161,6 @@ boot_can.h|CAN底层驱动的头文件
 	// CAN TRANSMIT (Data Frame)
 	// -----------------------------------------------------------------------------
 	int ccpBootTransmitCrmPossible( void ) {
-	
 	  return ((CAN0TFLG_TXE0) == 1);        // return 1 if so
 	}
 
@@ -165,9 +168,8 @@ boot_can.h|CAN底层驱动的头文件
 	
 	void ccpBootTransmitCrm (unsigned char *msg)
 	{
-	
-	  CAN0TBSEL = 0;                  // clear "Tx buffer select Reg" first
-	  CAN0TBSEL = 0x1;                // select Tx0 buffer
+	  	CAN0TBSEL = 0;                  // clear "Tx buffer select Reg" first
+	  	CAN0TBSEL = 0x1;                // select Tx0 buffer
 	
 	    CAN0TXIDR0=((g_ccp_dto_id<<5)>>8);
 	    CAN0TXIDR1=(g_ccp_dto_id<<5);
@@ -193,30 +195,30 @@ boot_can.h|CAN底层驱动的头文件
 	// -----------------------------------------------------------------------------
 	int ccpBootReceiveCro (unsigned char *msg)
 	{
-	  WORD id;
+	  	WORD id;
 	
-	  if (CAN0RFLG_RXF == 0) return 0;    // check if receive buffer is full
+	  	if (CAN0RFLG_RXF == 0) return 0;    // check if receive buffer is full
 	
-	  id = CAN0RXIDR0;
-	  id = (id<<8) + CAN0RXIDR1;
-	  id = id >> 5;
+	  	id = CAN0RXIDR0;
+	  	id = (id<<8) + CAN0RXIDR1;
+	  	id = id >> 5;
 	
-	  *msg++ = CAN0RXDSR0;           // store received message in buffer
-	  *msg++ = CAN0RXDSR1;
-	  *msg++ = CAN0RXDSR2;
-	  *msg++ = CAN0RXDSR3;
-	  *msg++ = CAN0RXDSR4;
-	  *msg++ = CAN0RXDSR5;
-	  *msg++ = CAN0RXDSR6;
-	  *msg++ = CAN0RXDSR7;
+	  	*msg++ = CAN0RXDSR0;                // store received message in buffer
+	  	*msg++ = CAN0RXDSR1;
+	  	*msg++ = CAN0RXDSR2;
+	  	*msg++ = CAN0RXDSR3;
+	  	*msg++ = CAN0RXDSR4;
+	  	*msg++ = CAN0RXDSR5;
+	  	*msg++ = CAN0RXDSR6;
+	  	*msg++ = CAN0RXDSR7;
 	
 	
-	  CAN0RFLG_RXF = 1;// clear receive full flag
+	  	CAN0RFLG_RXF = 1;// clear receive full flag
 	                                 
-	  CAN0CTL0_RXFRM = 1; // clear Received Frame Flag
+	  	CAN0CTL0_RXFRM = 1; // clear Received Frame Flag
 	
-	  if (id == g_ccp_cro_id) return 1;            // if correctly received, return 1
+	  	if (id == g_ccp_cro_id) return 1;            // if correctly received, return 1
 	
-	  return 0;
+	  	return 0;
 	
 	} /* ccpBootReceiveCro */
