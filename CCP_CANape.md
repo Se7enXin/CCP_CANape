@@ -1,5 +1,5 @@
 # CANape与ECU 
-<BR>
+
 ## 1、CANape的数据库.a2l文件
 
 ### （1）描述：  
@@ -7,6 +7,7 @@
 	.a2l文件中包含了程序的参数和地址，由程序编译后bin文件夹中的.map或者.pdb或者.elf等文件生成
 
 ### （2）生成步骤：  
+
 <font color = "blue">**1、打开ASAP2 Editor**</font>  
 ![](http://i.imgur.com/RXOgg2x.jpg)  
 
@@ -39,6 +40,7 @@
 ## 2、CANape模型
 
 ### （1）描述：
+
 	在Vector CANape中搭建模型，使ECU与上位机通过CANape建立连接。
 
 ### （2）生成步骤： 

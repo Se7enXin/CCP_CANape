@@ -3,7 +3,7 @@
 ## 1、和CCP移植相关的资料
 
 	Vector所提供的资料中有几个文档，下图中画红色方框的需要在移植之前看完。
-	
+
 ![](http://i.imgur.com/hLbaOeq.jpg)  
 		
 > **AN-IMC-1-001_Integration_of the_Vector_CCP_Driver_with_a_free_CAN_Driver.pdf**  介绍了完整的移植过程   
@@ -12,6 +12,7 @@
 > **CCP21.pdf**  介绍了2.1版本的CCP协议
 
 ## 2、CCP文件介绍
+
 移植后的工程中应该包含以下文件：  
 ![](http://i.imgur.com/1ksZHOC.jpg)  
 
@@ -28,7 +29,9 @@ boot_can.h|CAN底层驱动的头文件
 <font color= "red">其中***ccp.c、ccp.h、ccppar.h***由Vector提供，我们不需要进行改动，而其余的文件需要我们针对具体的芯片来进行改写。</font>
 
 ## 3、CCP Driver在ECU上的集成
+
 ### (1)ccppar.h
+
 <font color = "blue">CCP Driver数据类型的声明（针对不同硬件平台需要进行改动）：</font>  
 
 	/*----------------------------------------------------------------------------*/
@@ -56,6 +59,7 @@ boot_can.h|CAN底层驱动的头文件
 	#define CCP_CRO_ID        0x100         /* CAN identifier Master -> ECU */
 
 ### (2)ccp_can_interface.c
+
 <font color = "red">该文件实现对底层CAN驱动的封装：</font>  
 
 <font color = "blue">CAN发送：</font>
@@ -117,6 +121,7 @@ boot_can.h|CAN底层驱动的头文件
 	// -----------------------------------------------------------------------------
 	
 ### (3)boot_can.c
+
 <font color = "red">该文件中需要完成4个CAN接口函数，也是CCP中CAN模块的底层驱动</font> 
  
 <font color = "blue">CAN模块初始化：</font>	
